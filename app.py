@@ -75,4 +75,5 @@ def is_valid_youtube_url(url):
     return youtube_regex.match(url) is not None
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
