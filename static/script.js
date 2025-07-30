@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mock data for demonstration (replace with actual API calls)
     const mockVideoData = {
-        title: "NieR: Automata - YoRHa Unit Data Analysis",
-        author: "YoRHa Command Center",
+        title: "corba",
+        author: "az",
         length: "03:42",
         views: "2,847,596",
         thumbnail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'%3E%3Crect width='200' height='150' fill='%23d1cdb7'/%3E%3Crect x='10' y='10' width='180' height='130' fill='none' stroke='%232c2c2c' stroke-width='2'/%3E%3Ctext x='100' y='80' text-anchor='middle' font-family='monospace' font-size='12' fill='%232c2c2c'%3EVIDEO THUMBNAIL%3C/text%3E%3C/svg%3E"
@@ -42,24 +42,24 @@ document.addEventListener('DOMContentLoaded', function() {
         showLoading();
 
         try {
-            // Replace this with actual API call to your Flask backend
-            // const response = await fetch('/get_video_info', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ url: url })
-            // });
+            // Actual API call to Flask backend
+            const response = await fetch('/get_video_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: url })
+            });
             
-            // const data = await response.json();
-            
-            // For demo purposes, using mock data with timeout
-            await simulateApiCall(2000);
-            
-            displayVideoInfo(mockVideoData);
-            showVideoInfo();
-            showSuccess('BAŞARILI: Video verileri alındı.');
-            
+            const data = await response.json();
+
+            if (response.ok) {
+                displayVideoInfo(data);
+                showVideoInfo();
+                showSuccess('BAŞARILI: Video verileri alındı.');
+            } else {
+                showError('ERROR: ' + (data.error || 'Video bilgileri alınamadı.'));
+            }
         } catch (error) {
             showError('ERROR: Bağlantı hatası - ' + error.message);
         } finally {
@@ -77,49 +77,44 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadBtn.disabled = true;
 
         try {
-            // Replace this with actual API call to your Flask backend
-            // const response = await fetch('/download', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ 
-            //         url: url,
-            //         quality: quality 
-            //     })
-            // });
+            // Actual API call to Flask backend for download
+            const response = await fetch('/download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    url: url,
+                    quality: quality 
+                })
+            });
 
-            // if (response.ok) {
-            //     const blob = await response.blob();
-            //     const downloadUrl = window.URL.createObjectURL(blob);
-            //     const a = document.createElement('a');
-            //     a.href = downloadUrl;
-            //     
-            //     const contentDisposition = response.headers.get('Content-Disposition');
-            //     let filename = 'video.mp4';
-            //     if (contentDisposition) {
-            //         const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-            //         if (filenameMatch) {
-            //             filename = filenameMatch[1].replace(/['"]/g, '');
-            //         }
-            //     }
-            //     
-            //     a.download = filename;
-            //     document.body.appendChild(a);
-            //     a.click();
-            //     window.URL.revokeObjectURL(downloadUrl);
-            //     document.body.removeChild(a);
-            //     
-            //     showSuccess('BAŞARILI: Video indirme işlemi tamamlandı.');
-            // } else {
-            //     const errorData = await response.json();
-            //     showError('ERROR: ' + (errorData.error || 'İndirme sırasında hata oluştu'));
-            // }
-
-            // For demo purposes, simulate download
-            await simulateApiCall(3000);
-            showSuccess('BAŞARILI: Video indirme işlemi tamamlandı.');
-
+            if (response.ok) {
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                
+                const contentDisposition = response.headers.get('Content-Disposition');
+                let filename = 'video.mp4';
+                if (contentDisposition) {
+                    const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                    if (filenameMatch) {
+                        filename = filenameMatch[1].replace(/['"]/g, '');
+                    }
+                }
+                
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(downloadUrl);
+                document.body.removeChild(a);
+                
+                showSuccess('BAŞARILI: Video indirme işlemi tamamlandı.');
+            } else {
+                const errorData = await response.json();
+                showError('ERROR: ' + (errorData.error || 'İndirme sırasında hata oluştu'));
+            }
         } catch (error) {
             showError('ERROR: İndirme hatası - ' + error.message);
         } finally {
