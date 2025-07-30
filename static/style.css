@@ -1,73 +1,75 @@
+:root {
+  --yorha-black: #454138;
+  --yorha-white: #d1cdb7;
+  --yorha-beige: #a69f89;
+}
+
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--yorha-white);
+  color: var(--yorha-black);
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 2rem;
 }
 
-.card {
-    border: none;
-    border-radius: 15px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 2px solid var(--yorha-black);
+  padding: 2rem;
+  position: relative;
 }
 
-.card-header {
-    border-radius: 15px 15px 0 0 !important;
-    background: linear-gradient(45deg, #FF0000, #CC0000) !important;
+.container::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid var(--yorha-black);
+  z-index: -1;
 }
 
-.btn-primary {
-    background: linear-gradient(45deg, #007bff, #0056b3);
-    border: none;
+h1, h2, h3 {
+  font-family: 'Julius Sans One', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
 }
 
-.btn-success {
-    background: linear-gradient(45deg, #28a745, #20c997);
-    border: none;
+.nav {
+  border-bottom: 2px solid var(--yorha-black);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
-.btn-primary:hover,
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
+.nav-link {
+  color: var(--yorha-black);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 2rem;
+  transition: color 0.3s ease;
 }
 
-.input-group .form-control {
-    border-right: none;
+.nav-link:hover {
+  color: var(--yorha-beige);
 }
 
-.input-group .btn {
-    border-left: none;
+.button {
+  background: transparent;
+  border: 2px solid var(--yorha-black);
+  color: var(--yorha-black);
+  padding: 0.5rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-#videoThumbnail {
-    object-fit: cover;
-    max-height: 200px;
-}
-
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
-}
-
-.alert {
-    border-radius: 10px;
-}
-
-.fab.fa-youtube {
-    color: #FF0000;
-}
-
-.btn-check:checked + .btn {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .btn-group .btn {
-        font-size: 0.875rem;
-    }
+.button:hover {
+  background: var(--yorha-black);
+  color: var(--yorha-white);
 }
